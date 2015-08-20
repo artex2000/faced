@@ -1,0 +1,17 @@
+uint32_t LUT[8]; int bit = (LUT[LBP >> 5] >> (LBP & 31))&1;
+int(Rx) >= int(R4). So the LBP is something around the lines of 
+LBP = ((int(R0) >= int(R4)) << 7) | ((int(R1) >= int(R4)) << 6) | ((int(R2) >= int(R4)) << 5) | ((int(R5) >= int(R4)) << 4) | ((int(R8) >= int(R4)) << 3) | ((int(R7) >= int(R4)) << 2) | ((int(R6) >= int(R4)) << 1) | ((int(R3) >= int(R4)) << 0);
+
+1. Calculate LBP (index in LUT table)
+Scanning window is divided on 9 rects of size <rect> in model:
+R0  R1  R2
+R3  R4  R5
+R6  R7  R8
+Calculate integral values for all rects
+Create bits by comparing R4 to others starting from R0 clockwise - R0-R1-R2-R5-R8-R7-R6-R3 (msb to lsb)
+Get the corresponding 32-bit value from LUT table
+lut_u32 = LUT[LBP >> 5]
+Get the corresponding bit from lut_u32
+bit = (lut_u32 >> (LBP & 0x1F)) & 1
+
+ 
